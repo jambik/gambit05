@@ -1,0 +1,35 @@
+    
+updater_new:
+    path:     /nuber/updater/
+    defaults: { _controller: "MainNuberBundle:Updater:new" }
+    methods:  [POST]
+
+updater_req:
+    path:     /nuber/updater/req/
+    defaults: { _controller: "MainNuberBundle:Updater:req" }
+    methods:  [GET]
+
+nuber_answer_request:
+    path:     /nuber/updater/getdata
+    defaults: { _controller: "MainNuberBundle:Updater:answer" }
+    methods:  [POST]  
+    
+    
+ajax_auth:
+    path:     /ajax/auth/
+    defaults: { _controller: "MainNuberBundle:User:phoneAuth" }
+    methods:  [POST] 
+
+ajax_reg:
+    path:     /ajax/reg/
+    defaults: { _controller: "MainNuberBundle:User:Register" }
+    methods:  [POST] 
+
+nuber_base_put_:
+    path:     /nuber/base/put
+    defaults: { _controller: "MainNuberBundle:Default:put" }
+    methods:  [POST]
+    
+nuber_check_error:
+    path:     /nuber/check/trouble
+    defaults: { _controller: "MainNuberBundle:Default:checkTrouble" }

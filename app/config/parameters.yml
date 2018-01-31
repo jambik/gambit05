@@ -1,0 +1,12 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: db_gambit_nuber
+    database_user: gambit_user
+    database_password: Zech0mBhtCRn
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    secret: 3ed7af51900b2363f3f4b4afd51d569a9689e130

@@ -1,0 +1,776 @@
+{% extends 'admin.html.twig' %}
+
+
+{% block js %}
+    <script src="/js/jquery.datetimepicker.full.min.js"></script>
+    <script>
+        $('.datetimepicker').datetimepicker({
+           lang:'ru',
+           dayOfWeekStart:1,
+            format:'d.m.Y H:i'   
+       }); 
+       
+       $("#cond-func").change(function(){
+           var it = $(this).val();
+           if(it == 1){
+            $('#cond-buy-in-basket-block').hide();    
+           }else{
+            $('#cond-buy-in-basket-block').show();     
+           } 
+       });
+       
+    </script>                                                           
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="/css/jquery.datetimepicker.css"/>
+{% endblock %}
+    
+{% block body %}
+    <div class="bs-callout bs-callout-info">
+        <h1 class="page-header">
+            {% block body_title %}База товаров{% endblock %}
+        </h1> 
+    </div>
+   
+   
+    <div class="row">
+        <div class="col-xs-3" id="filter-block">
+            <div class="row"> 
+                <div class="col-xs-12">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label for="">Группа товаров</label>
+                                <div class="input-group">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" id="group-setting" type="button">
+                                            <i class="fa fa-cogs" aria-hidden="true"></i>
+                                        </button>
+                                    </span>                        
+                                    <input type="text" id='selected-group' style="height:34px !important" disabled class="form-control"> 
+                                </div>
+                                <div id="product-tree">
+                                    {{ include(template_from_string(productTree)) }}
+                                </div>
+                                <div class="btn-group pull-right" style="margin-top: 15px;">
+                                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Создать <span class="caret"></span></button>
+                                  <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#" id="addNewGroup">Группу</a></li>
+                                    <li><a href="#" id="addNewProduct">Товар</a></li>
+                                  </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                        <!-- <label for="">Действия с выделенным</label>
+                               <div class="input-group">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" id="set-action" type="button">
+                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                    </button>
+                                </span>                        
+                            <select id="selected-action-list" class="form-control">
+                              <option>Выберите действие</option>
+                              <option value="1">Синхронизировать</option>
+                              <option value="2">Синхронизировать текущую группу</option>
+                              <option value="3">Синхронизировать всю базу</option>
+                               </select>
+                            </div>       -->
+ 
+                        </div>
+                    </div>
+                    <div class="col-xs-12 text-center">
+                    
+                       <!-- <a href="/project/hand-update" id="upd-btn" style="margin-top: 20px;" class="btn btn-primary btn-xs">Обновить базу</a>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-8">
+            <table class="table table-striped table-condensed" id="base-product-table">
+                <thead>
+                    <th width="2%"><input type="checkbox" id="all-checked"></th>
+                    <th width="3%"><i class="fa fa-check-square-o" aria-hidden="true"></i></th>
+                    <th width="70%">Название</th>
+                    <th width="10%"><i class="fa fa-rub" aria-hidden="true"></i></th>
+                    <th width="5%"><i class="fa fa-file-image-o" aria-hidden="true"></i></th>
+                    <th width="5%" class="text-center"><i class="fa fa-sort-numeric-desc" aria-hidden="true"></i></th>
+                </thead>
+                <tbody>
+                
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+    
+    <div class="modal fade" id="ProductGroupModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Настройки группы</h4>
+          </div>
+          <div class="modal-body">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#p" data-toggle="tab">Параметры</a></li>
+                <li><a href="#s" data-toggle="tab">SEO</a></li>
+                <li><a href="#r" data-toggle="tab">Рекомендованные группы</a></li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+              <div class="tab-pane" id="r">
+                <div class="row" style="margin: 5px 0;">
+                    <div class="col-xs-4" >
+                        <div id="product-tree-rec">
+                            {{ include(template_from_string(productTree)) }}
+                        </div>
+                        <a id="addRecBtn" style="width:100%;margin-top: 10px;" class="btn btn-primary">Добавить группу >></a>
+                    </div>
+                    <div class="col-xs-8">
+                        <table class="table table-striped rec-group">
+                            <tbody>
+                            </tbody>  
+                        </table>                    
+                    </div>
+                </div>
+              </div>
+              <div class="tab-pane" id="s">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <form role="form">
+                          <div class="form-group">
+                            <label for="card-group-seo-title">SEO Заголовок</label>
+                            <input type="text" class="form-control" id="card-group-seo-title" placeholder="">
+                          </div>
+                          <div class="form-group">
+                            <label for="card-group-seo-key">SEO Keywords</label>
+                            <textarea id="card-group-seo-key" class="form-control" rows="5"></textarea>
+                          </div>
+                          <div class="form-group">
+                            <label for="card-group-seo-desc">SEO description</label>
+                            <textarea id="card-group-seo-desc" class="form-control" rows="5"></textarea>
+                          </div>
+                          <div class="form-group">
+                            <label for="card-group-seo-text">SEO Text</label>
+                            <textarea id="card-group-seo-text" class="form-control" rows="5"></textarea>
+                          </div>                                                                             
+                        </form>
+                    </div>
+                </div>
+              </div>
+              <div class="tab-pane active" id="p">
+                 <div class="row">
+                    <div class="col-xs-7">
+                        <form role="form" style="margin-top: 10px;">
+                          <div class="form-group">
+                            <label for="card-group-name">Название</label>
+                            <input type="text" class="form-control" id="card-group-name" placeholder="">
+                          </div>                        
+                          <div class="form-group">
+                            <label for="card-group-alias">Псевдоним</label>
+                            <input type="text" class="form-control" id="card-group-alias" placeholder="burger">
+                          </div>
+                          <div class="form-group"> 
+                                <div class="input-group">
+                                <label for="card-group-alias">Родительская группа</label>
+                                  <input type="text" class="form-control" disabled="disabled" id="parent-group">
+                                  <span class="input-group-btn" >
+                                    <button class="btn btn-default" id="open-group-tree" style="margin-top: 25px;" type="button">+</button>
+                                  </span>
+                                </div><!-- /input-group -->
+                          </div>
+                          <div class="checkbox">
+                            <label>
+                                  <input type="checkbox" id="group-hide-alias-by-url"> Не отображать в URL
+                                </label>
+                          </div> 
+                          <div class="form-group">
+                            <label for="card-group-description">Описание</label>
+                            <textarea id="card-group-description"  class="form-control" rows="5"></textarea>
+                          </div>
+                          <div class="form-group">
+                            <label for="card-group-additional-info">Доп. информация</label>
+                            <textarea id="card-group-additional-info" class="form-control" rows="5"></textarea>
+                          </div>                                            
+                        </form>                    
+                    </div>
+                    <div class="col-xs-5">
+                        <div class="row">
+                            <div class="col-xs-12" id="card-block-img">
+                                <img src="/img/no-photo.png" id='group-card-img' style='width:100%' alt="">
+                                  <div class="form-group">
+                                    <label for="product-file-img">Картинка товара</label>
+                                    <input type="file" id="product-file-img">
+                                    <p class="help-block">PNG или JPG, не более 5 мб.</p>
+                                  </div>
+                            </div>
+                            <div class="col-xs-12" >
+                                <div id="card-block-product-tree" style="display: none; ">
+                                    <a class="btn-default" data-group-id='0' id="set-none-parent-group">Без родительской категории</a>
+                                    {{ include(template_from_string(productTree)) }}
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>
+                 </div>
+
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+            <button type="button" class="btn btn-primary" id="save-group-prop">Сохранить</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+
+    <div class="modal fade bs-example-modal-lg" id="ProductModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalProductLabel">Параметры товара</h4>
+          </div>
+          <div class="modal-body ">
+              <div class="row">
+                 <div class="col-xs-7">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#i" data-toggle="tab">Информация</a></li>
+                        <li ><a href="#a" data-toggle="tab">Доп.</a></li>
+                        <li ><a href="#seo" data-toggle="tab">SEO</a></li>                        
+                        <li ><a href="#d" data-toggle="tab" >Скидки</a></li>
+                        <li ><a href="#m" data-toggle="tab">Модификаторы</a></li>
+                    </ul>
+                    <div class="tab-content">
+                      <div class="tab-pane active" id="i">
+                        <form role="form">
+                          <div class="form-group">
+                            <label for="card-product-name">Название</label>
+                            <input type="text" class="form-control" id="card-product-name" placeholder="Название товара">
+                          </div>
+                          <div class="form-group">
+                            <div class="checkbox">
+                                <label>
+                                      <input type="checkbox" id="card-product-isIncludedInMenu"> Показывать в меню
+                                    </label>
+                            </div>
+                          </div>     
+                          <div class="form-group">
+                            <label for="card-product-code">Артикул</label>
+                            <input type="text" class="form-control"  id="card-product-code" placeholder="Артикул">
+                          </div>                          
+                          <div class="form-group">
+                            <label for="card-product-alias">Псевдоним</label>
+                            <input type="text" class="form-control" id="card-product-alias" placeholder="Псевдоним для url">
+                          </div>
+                          <div class="form-group"> 
+                                <div class="input-group">
+                                <label for="card-group-alias">Группа</label>
+                                  <input type="text" class="form-control" disabled="disabled" id="product-group">
+                                  <span class="input-group-btn" >
+                                    <button class="btn btn-default" id="open-product-tree" style="margin-top: 25px;" type="button">+</button>
+                                  </span>
+                                </div><!-- /input-group -->
+                          </div>                          
+                          <div class="form-group">
+                            <label for="card-product-price">Цена</label>
+                            <input type="text" class="form-control" id="card-product-price" placeholder="Цена">
+                          </div>                           
+                          <div class="form-group">
+                            <label for="card-product-weight">Вес</label>
+                            <input type="text" class="form-control" id="card-product-weight" placeholder="Вес">
+                          </div>
+                          <div class="form-group">
+                            <label for="card-product-additional-info">Краткое описание</label>
+                            <textarea id="card-product-additional-info" class="form-control" rows="5"></textarea>
+                          </div>                           
+                          <div class="form-group">
+                            <label for="card-product-price">Описание</label>
+                            <textarea id="card-product-description"  class="form-control" rows="5"></textarea>
+                          </div>                                                                             
+                        </form>
+                      </div>
+                      <div class="tab-pane" id="a">
+                        <form role="form">
+                          <div class="form-group">
+                            <label for="card-product-energy">Калории</label>
+                            <input type="text" class="form-control" id="card-product-energy" placeholder="energy">
+                          </div>                          
+                          <div class="form-group">
+                            <label for="card-product-carbonhydrat">Углеводы</label>
+                            <input type="text" class="form-control" id="card-product-carbonhydrat" placeholder="carbonhydrat">
+                          </div>
+                          <div class="form-group">
+                            <label for="card-product-fat">Жиры</label>
+                            <input type="text" class="form-control" id="card-product-fat" placeholder="fat">
+                          </div>  
+                          <div class="form-group">
+                            <label for="card-product-fiber">Клетчатка</label>
+                            <input type="text" class="form-control" id="card-product-fiber" placeholder="fiber">
+                          </div>
+                                               
+                        </form>
+                      </div>                      
+                      <div class="tab-pane" id="seo">
+                        <form role="form">
+                          <div class="form-group">
+                            <label for="card-product-seotitle">SEO Заголовок</label>
+                            <input type="text" class="form-control" id="card-product-seotitle" placeholder="">
+                          </div>
+                          <div class="form-group">
+                            <label for="card-product-seo-key">SEO Keywords</label>
+                            <textarea id="card-product-seo-key" class="form-control" rows="5"></textarea>
+                          </div>
+                          <div class="form-group">
+                            <label for="card-product-seo-desc">SEO description</label>
+                            <textarea id="card-product-seo-desc" class="form-control" rows="5"></textarea>
+                          </div>
+                          <div class="form-group">
+                            <label for="card-product-seo-text">SEO Text</label>
+                            <textarea id="card-product-seo-text" class="form-control" rows="5"></textarea>
+                          </div>                                                                             
+                        </form>
+                      </div>
+                      <div class="tab-pane" id="d">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <table class="table table-striped" id="discount-table">
+                                        <thead>
+                                            <tr>
+                                                <td colspan="6" class="text-right">
+                                                    <a id="addDiscount" data-product-id="" data-toggle="modal" data-target="#ProductCardDiscount" class="btn btn-default">Добавить</a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Активна</th>
+                                                <th>Название</th>
+                                                <th>Up</th>
+                                                <th>Скидка</th>
+                                                <th>*</th>
+                                            </tr>  
+                                        </thead>
+                                        <tbody>
+                                        
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                      </div>
+                      <div class="tab-pane" id="m">
+                      <div class="row">
+                        <div class="col-xs-12 text-right">
+                            <div class="btn-group">
+                              <button type="button" class="btn btn-default btn-sm dropdown-toggle" style="margin-top: 15px;" data-toggle="dropdown">Шаблоны<span class="caret"></span></button>
+                              <ul class="dropdown-menu" role="menu">
+                                <li><a id='open-pizza-gen' data-toggle="modal" data-target=".modal-set-modifier-pizza">Пицца</a></li>
+                                <li><a id='open-drinks-gen' data-toggle="modal" data-target=".modal-set-modifier-drinks">Напитки</a></li>
+                              </ul>
+                            </div>
+                        </div>
+                      </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <table class="table table-striped" id="requared-mod">
+                                    <thead>
+                                        <tr>
+                                            <td colspan="6" class="text-center">Обязательные</td>
+                                        </tr>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Товар</th>
+                                            <th>Цена</th>
+                                            <th>Мин.</th>
+                                            <th>Макс.</th>
+                                            <th>Станд.</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    
+                                    </tbody>
+                                </table>
+                            </div>        
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <table class="table table-striped" id="not-requared-mod">
+                                    <thead>
+                                        <tr>
+                                            <td colspan="6" class="text-center">Не обязательные</td>
+                                        </tr>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Товар</th>
+                                            <th>Цена</th>
+                                            <th>Мин.</th>
+                                            <th>Макс.</th>
+                                            <th>Станд.</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    
+                                    </tbody>
+                                </table>
+                            </div>        
+                        </div>                        
+                      </div>                                            
+                    </div>
+                 </div>
+                 <div class="col-xs-5">
+                    <div class="row">
+                        <div class="col-xs-12" id='card-block-prod-img'>
+                            <img src="/img/no-photo.png" id='product-card-img' alt="">
+                            <div class="form-group">
+                                <label for="prod-file-img">Картинка товара</label>
+                                <input type="file" id="prod-file-img">
+                                <p class="help-block">PNG или JPG, не более 5 мб.</p>
+                              </div>
+                        </div>
+                        <div class="col-xs-12" >
+                            <div id="card-block-prod-tree" style="display: none; margin-bottom: 20px;">
+                                {{ include(template_from_string(productTree)) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <table class="table table-striped">
+                                <tr>
+                                    <th>Товар:</th>
+                                    <td id="isIiko">не Из Iiko</td>
+                                </tr>
+                                <tr>
+                                    <th>Добавлен</th>
+                                    <td id="card-product-created"></td>
+                                </tr>
+                                <tr>
+                                    <th>Текущая цена</th>
+                                    <td id="card-product-cur-price"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                 </div>
+              </div>
+            
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+            <button type="button" class="btn btn-primary" id="save-product-prop">Сохранить</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="modal fade" id="ProductModModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Редактирование модификатора</h4>
+          </div>
+          <div class="modal-body">
+            <form role="form">
+              <div class="form-group">
+                <label for="mod-name">Название</label>
+                <input type="text" class="form-control" id="mod-name" placeholder="Название модификатора">
+              </div>  
+              <div class="form-group">
+                <label for="mod-price">Цена</label>
+                <input type="text" class="form-control" id="mod-price" placeholder="Цена модификатора">
+              </div> 
+              <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                          <input type="checkbox" id="mod-default"> По умолчанию
+                        </label>
+                </div>
+              </div>               
+          </form>          
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+            <div class="btn-group">
+              <button type="button" class="btn btn-primary save-mod-data">Сохранить</button>
+              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+             <span class="caret"></span>
+             <span class="sr-only">Меню с переключением</span>
+             </button>
+              <ul class="dropdown-menu" role="menu">
+                <li class="divider"></li>
+                <li><a id='kill-product-modifier'>Удалить</a></li>
+              </ul>
+            </div>
+                                                                         
+          </div>
+        </div>
+      </div>
+    </div>    
+    <div class="modal fade modal-set-modifier-pizza"  tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Модификаторы для пиццы</h4>
+            </div>
+            <div class="modal-body ">
+                <form role="form">
+                    <div class="row">
+                        <div class="col-xs-8">
+                          <div class="form-group">
+                            <input type="text" class="form-control" value="Тесто: традиционное, диаметр: 20см" id="first-pizza-name" placeholder="Тесто: традиционное, диаметр: 20см">
+                          </div>                        
+                        </div>
+                        <div class="col-xs-4">
+                          <div class="form-group">
+                            <input type="text" class="form-control" id="first-pizza-price" placeholder="Цена">
+                          </div>                        
+                        </div>
+                    </div>
+                     <div class="row">
+                        <div class="col-xs-8">
+                          <div class="form-group">
+                            <input type="text" class="form-control" value="Тесто: тонкое, диаметр: 30см" id="second-pizza-name" placeholder="Тесто: тонкое, диаметр: 30см">
+                          </div>                        
+                        </div>
+                        <div class="col-xs-4">
+                          <div class="form-group">
+                            <input type="text" class="form-control" id="second-pizza-price" placeholder="Цена">
+                          </div>                        
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-8">
+                          <div class="form-group">
+                            <input type="text" class="form-control" value="Тесто: традиционное, диаметр: 30см" id="third-pizza-name" placeholder="Тесто: традиционное, диаметр: 30см">
+                          </div>                        
+                        </div>
+                        <div class="col-xs-4">
+                          <div class="form-group">
+                            <input type="text" class="form-control" id="third-pizza-price" placeholder="Цена">
+                          </div>                        
+                        </div>
+                    </div> 
+                    <div class="row">
+                        <div class="col-xs-8">
+                          <div class="form-group">
+                            <input type="text" class="form-control" value="Тесто: традиционное, диаметр: 40см" id="fourth-pizza-name" placeholder="Тесто: традиционное, диаметр: 40см">
+                          </div>                        
+                        </div>
+                        <div class="col-xs-4">
+                          <div class="form-group">
+                            <input type="text" class="form-control" id="fourth-pizza-price" placeholder="Цена">
+                          </div>                        
+                        </div>
+                    </div>                                           
+                </form>
+             </div>
+             <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-primary" id="set-pizza-mod">Сохранить</button>
+             </div>
+        </div>
+      </div>
+    </div>     
+    
+    
+    <div class="modal fade modal-set-modifier-drinks"  tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Модификаторы для напитков</h4>
+                
+            </div>
+            <div class="modal-body ">
+                <form role="form">
+                    <div class="row">
+                        <div class="col-xs-7">
+                          <div class="form-group">
+                            <input type="text" class="form-control" id="first-drinks-name" placeholder="Название">
+                          </div>                        
+                        </div>
+                        <div class="col-xs-3">
+                          <div class="form-group">
+                            <input type="text" class="form-control" id="first-drinks-price" placeholder="Цена">
+                          </div>                        
+                        </div>
+                        <div class="col-xs-2">
+                            <div class="form-group">
+                                 <input type="radio" name="drinksDefault" id="first-drinks-defult" value="1">
+                            </div>
+                        </div>
+                    </div>
+                     <div class="row">
+                        <div class="col-xs-7">
+                          <div class="form-group">
+                            <input type="text" class="form-control" id="second-drinks-name" placeholder="Название">
+                          </div>                        
+                        </div>
+                        <div class="col-xs-3">
+                          <div class="form-group">
+                            <input type="text" class="form-control" id="second-drinks-price" placeholder="Цена">
+                          </div>                        
+                        </div>
+                        <div class="col-xs-2">
+                            <div class="form-group">
+                                 <input type="radio" name="drinksDefault" id="second-drinks-default" value="2" checked>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-7">
+                          <div class="form-group">
+                            <input type="text" class="form-control" id="third-drinks-name" placeholder="Название">
+                          </div>                        
+                        </div>
+                        <div class="col-xs-3">
+                          <div class="form-group">
+                            <input type="text" class="form-control" id="third-drinks-price" placeholder="Цена">
+                          </div>                        
+                        </div>
+                        <div class="col-xs-2">
+                            <div class="form-group">
+                                 <input type="radio" name="drinksDefault" id="third-drinks-default" value="3">
+                            </div>
+                        </div>
+                    </div>                 
+                </form>
+             </div>
+             <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-primary" id="set-drinks-mod">Сохранить</button>
+             </div>
+        </div>
+      </div>
+    </div>        
+    <div class="modal fade" id="ProductCardDiscount" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Управление скидкой</h4>
+          </div>
+          <div class="modal-body">
+            <form role="form">
+              <div class="form-group">
+                <label for="card-discount-name">Название скидки</label>
+                <input type="text" class="form-control" id="card-discount-name" placeholder="">
+              </div> 
+              <div class="form-group">
+                <label for="card-discount-name">Процент скидки</label>
+                <input type="text" class="form-control" id="card-discount-percent" placeholder="">
+              </div> 
+              <div class="form-group">
+                <label for="card-discount-name">Сумма скидки</label>
+                <input type="text" class="form-control" id="card-discount-summ" placeholder="">
+              </div>        
+              <div class="checkbox">
+                <label>
+                      <input type="checkbox" id="card-discount-in-top"> Поднимать вверх товар
+                    </label>
+              </div>
+              <div class="checkbox">
+                <label>
+                      <input type="checkbox" id="card-discount-active"> Активна
+                    </label>
+              </div>                                               
+            </form>           
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+            <button type="button" class="btn btn-primary" id="save-add-discount">Сохранить</button>
+          </div>
+        </div>
+      </div>
+    </div>    
+
+    
+
+    <div class="modal fade" id="ProductCardDiscountCondition" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Условие срабатывания скидки</h4>
+          </div>
+          <div class="modal-body">
+          <div class="row">
+            <div class="col-xs-8">
+                <table  class="table table-striped disc-cond-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Функ.</th>
+                            <th>Старт</th>
+                            <th>Конец</th>
+                            <th>Кол-во</th>
+                            <th>Повтор</th>
+                            <th>/</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-xs-4">
+            
+                <form role="form">
+                  <div class="form-group">
+                    <label for="disc-title">Функция</label>
+                        <select class="form-control" id="cond-func">
+                            <option value="1">Время действия</option>
+                            <option value="2">Количество товаров по скидке в период действия</option>
+                            <!--<option value="3">Количество товаров со скидкой в корзине</option>    -->
+                        </select>
+                  </div>                
+                  <div class="form-group">
+                    <label for="disc-title">Дата начала</label>
+                    <input type="text" class="form-control datetimepicker" id="cond-datetime-start" style="" placeholder="">
+                  </div>
+                  <div class="form-group">
+                    <label for="disc-title">Дата окончания</label>
+                    <input type="text" class="form-control datetimepicker" id="cond-datetime-stop" placeholder="">
+                   
+                  </div>              
+                  <div class="form-group" id="cond-buy-in-basket-block" style="display: none;">
+                    <label for="disc-title">Кол-во товара </label>
+                    <input type="text" class="form-control " id="cond-buy-in-basket" placeholder="">
+                  </div>
+                <!--  <div class="form-group">
+                    <label for="disc-title">Сумма в корзине</label>
+                    <input type="text" class="form-control" id="disc-title" placeholder="">
+                  </div>
+                  <div class="form-group">
+                    <label for="disc-title">Кол-во элементов в корзине</label>
+                    <input type="text" class="form-control" id="disc-title" placeholder="">
+                  </div>     -->                                   
+                  <div class="form-group">
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox" id="cond-repeat"> Повторять каждый день
+                        </label>
+                      </div>
+                  </div>
+                </form>
+            </div>
+          </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default btn-xs" data-dismiss="modal">Закрыть</button>
+            <button type="button" class="btn btn-primary btn-xs save-discount-condition">Добавить</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+{% endblock %}
+

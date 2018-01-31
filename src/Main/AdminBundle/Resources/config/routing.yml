@@ -1,0 +1,137 @@
+work_product_page_rec:
+    path:     /work/page/item-rec/
+    defaults: { _controller: "MainAdminBundle:Page:itemRec" }
+    
+work_product_get_by_id:
+    path:     /work/group/{group}/getProduct/   
+    defaults: { _controller: "MainAdminBundle:Page:getProduct" } 
+       
+work_main:
+    path:     /work/
+    defaults: { _controller: "MainAdminBundle:Admin:index" }
+    
+work_catalog:
+    path:     /work/catalog/
+    defaults: { _controller: "MainAdminBundle:Catalog:index" }
+
+work_order:
+    path:     /work/order/
+    defaults: { _controller: "MainAdminBundle:Order:index" }
+
+work_page:
+    path:     /work/page/
+    defaults: { _controller: "MainAdminBundle:Page:index" }
+
+work_page_save:
+    path:     /work/page/{page}/save/
+    defaults: { _controller: "MainAdminBundle:Page:save" }
+    methods:  [POST]
+
+work_group_save:
+    path:     /work/group/save/
+    defaults: { _controller: "MainAdminBundle:Catalog:groupSave" }
+    methods:  [POST]
+
+work_group_refresh_tree:
+    path:     /work/group/refreshTree/
+    defaults: { _controller: "MainAdminBundle:Catalog:refreshTree" }
+    methods:  [POST]
+    
+work_page_item:
+    path:     /work/page/{page}/
+    defaults: { _controller: "MainAdminBundle:Page:detail" }
+    
+work_order_chenge_status:               
+    path:     /work/order/{order}/status
+    defaults: { _controller: "MainAdminBundle:Order:changeStatus" }    
+
+work_order_get_item_list:               
+    path:     /work/order/{order}/getItemList/{user}
+    defaults: { _controller: "MainAdminBundle:Order:getItemList" } 
+    
+   
+work_user:
+    path:     /work/user/
+    defaults: { _controller: "MainAdminBundle:User:index" }
+    
+work_gift:
+    path:     /work/gift/
+    defaults: { _controller: "MainAdminBundle:Gift:index" }
+    
+work_catalog_get_product_list:
+    path:     /work/catalog/group/{group}/getProduct
+    defaults: { _controller: "MainAdminBundle:Catalog:getProductList" }
+    
+work_get_group_rec__:
+    path:     /work/group/{group}/get/recommended
+    defaults: { _controller: "MainAdminBundle:Catalog:getRecommended" }
+    methods:  [POST]
+    
+work_set_group_rec:
+    path:     /work/group/{group}/set/recommended
+    defaults: { _controller: "MainAdminBundle:Catalog:setRecommended" }
+    methods:  [POST]
+    
+work_del_group_rec:
+    path:     /work/group/{group}/del/recommended
+    defaults: { _controller: "MainAdminBundle:Catalog:delRecommended" }
+    methods:  [POST]
+    
+work_get_product_card_data:
+    path:     /work/get/product/{product}
+    defaults: { _controller: "MainAdminBundle:Catalog:getProductData" }
+    methods:  [POST]
+
+work_save_product_card_data:
+    path:     /work/product/save/
+    defaults: { _controller: "MainAdminBundle:Catalog:saveProductData" }
+    methods:  [POST]
+    
+work_get_list_discount:
+    path:     /work/product/{product}/getDiscountList/
+    defaults: { _controller: "MainAdminBundle:Catalog:getProductDiscountList" }
+    methods:  [POST]
+    
+set_product_discount_:
+    path:     /product/{product}/setDiscount/
+    defaults: { _controller: "MainAdminBundle:Catalog:setProductDiscount" }
+    methods:  [POST]
+    
+work_get_list_discount_cond:
+    path:     /work/discount/{discount}/getDiscountCondList/
+    defaults: { _controller: "MainAdminBundle:Catalog:getProductDiscountCondList" }
+    methods:  [POST]
+    
+set_product_discount_condition:
+    path:     /work/discount/{discount}/setCondition/
+    defaults: { _controller: "MainAdminBundle:Catalog:setDiscountCondition" }
+    methods:  [POST] 
+    
+delete_product_discount_condition:
+    path:     /work/condition/{condition}/delete/
+    defaults: { _controller: "MainAdminBundle:Catalog:delDiscountCondition" }
+    methods:  [POST]
+    
+work_settings:
+    path:     /work/settings/
+    defaults: { _controller: "MainAdminBundle:Settings:index" }
+
+work_pbp_edit:
+    path:     /work/getPbPdata/edit/
+    defaults: { _controller: "MainAdminBundle:Page:PbPEdit" }
+    
+work_pbp_save:
+    path:     /work/getPbPdata/save/
+    defaults: { _controller: "MainAdminBundle:Page:PbPsave" }
+    
+work_pbp:
+    path:     /work/getPbPdata/
+    defaults: { _controller: "MainAdminBundle:Page:PbP" }
+    
+work_catalog_update_img:
+    path:     /work/catalog/upload/
+    defaults: { _controller: "MainAdminBundle:Catalog:ImgUpload" }
+    
+work_hand_push_:
+    path:     /hand/push/{order}/
+    defaults: { _controller: "MainAdminBundle:Order:handPush" }

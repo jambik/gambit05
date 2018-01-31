@@ -1,0 +1,18 @@
+main_catalog:
+    resource: "@MainCatalogBundle/Resources/config/routing.yml"
+    prefix:   /
+
+main_nuber:
+    resource: "@MainNuberBundle/Resources/config/routing.yml"
+    prefix:   /
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+main_page:
+    resource: "@MainPageBundle/Resources/config/routing.yml"
+    prefix:   /
+    
+main_admin:
+    resource: "@MainAdminBundle/Resources/config/routing.yml"
+    prefix:   /

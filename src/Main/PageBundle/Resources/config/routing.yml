@@ -1,0 +1,6 @@
+
+statik_url:
+    resource: .
+    type: extra
+    prefix: /
+    

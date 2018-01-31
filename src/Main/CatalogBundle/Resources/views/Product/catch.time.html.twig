@@ -1,0 +1,26 @@
+<!--Товар-->
+    <div class="col-sm-6" data-product-id="{{product.id}}" >
+        <div class="item moment" data-product-id="{{product.id}}" data-is-discount="{{product.isPriceDiscount}}" data-max-basket-count="{{product.maxBasketCount}}">
+            <div class="./img-wrap">
+                <img class="mask" src="/img/mask.png">
+                <img class="item-img" src="{% if product.images.count > 0 %} 
+                                                {% if product.images[0].urlNuberUpload %}
+                                                    {{ product.images[0].urlNuberUpload }}
+                                                {% else %}
+                                                    {{ product.images[0].urlOriginal }} 
+                                                {% endif %}
+                                           {% else %} 
+                                                /img/product/no-photo.png 
+                                           {% endif %}">
+            </div>
+            <div class="desc-wrap">
+                <a class="item-name" href="/catalog/{{url}}/{{product.alias}}">{{ product.name }}</a>
+                <p class="banner">осталось {{ product.remainderItem }}</p>
+                <p class="counter">До конца акции<br><span>{{ product.timeUntilTheEnd }}</span></p>
+                <p class="old-price">{{ product.priceWithOutDiscount }}</p>
+                <a class="button-price"><span class="price">{{ product.price }}</span><img src="/img/cart-white.png"></a>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+<!--/Товар-->

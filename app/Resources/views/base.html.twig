@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>{% block title %}Круглосуточная бесплатная доставка еды на дом в Махачкале. Круглосуточный заказ пиццы, суши, роллов, шашлыков{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css?v=2" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/css/nav-style.css">
+    <script src="/js/modernizr.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="/js/jquery.cookie.js"></script>
+    <meta content="{% block metadesc %}{{page.data.MetaDescription}}{% endblock %}" name="description">
+    <meta content="{% block metakey %}{{page.data.metaKeys}}{% endblock %}" name="keywords">
+    <meta content="Nuber" name="author">    
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    {{page.data.head}}
+</head>
+<body>
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter45117150 = new Ya.Metrika({
+                    id:45117150,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true,
+                    webvisor:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/45117150" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+<!-- Google Tag Manager 
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-KNPDXB"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KNPDXB');</script>
+<!-- End Google Tag Manager -->
+    {% block body %}{% endblock %}
+    <script src="/js/nuber.js"></script>
+    <script src="/js/jquery.maskedinput.js"></script>
+    <script src="/js/function.nuber.js"></script>
+    <script src="/js/new.basket.nuber.js"></script>
+    <script src="/js/search.nuber.js"></script>
+
+    {% block javascripts %}{% endblock %}
+        <!--Сторонний код
+<noindex><script async src='data:text/javascript;charset=utf-8;base64,ZnVuY3Rpb24gZ2V0Q29va2llKG5hbWUpIHsNCgl2YXIgY29va2llID0gJyAnICsgZG9jdW1lbnQuY29va2llOw0KCXZhciBzZWFyY2ggPSAnICcgKyBuYW1lICsgJz0nOw0KCXZhciBzZXRTdHIgPSBudWxsOw0KCXZhciBvZmZzZXQgPSAwOw0KCXZhciBlbmQgPSAwOw0KCWlmIChjb29raWUubGVuZ3RoID4gMCkgew0KCQlvZmZzZXQgPSBjb29raWUuaW5kZXhPZihzZWFyY2gpOw0KCQlpZiAob2Zmc2V0ICE9IC0xKSB7DQoJCQlvZmZzZXQgKz0gc2VhcmNoLmxlbmd0aDsNCgkJCWVuZCA9IGNvb2tpZS5pbmRleE9mKCc7Jywgb2Zmc2V0KQ0KCQkJaWYgKGVuZCA9PSAtMSkgew0KCQkJCWVuZCA9IGNvb2tpZS5sZW5ndGg7DQoJCQl9DQoJCQlzZXRTdHIgPSB1bmVzY2FwZShjb29raWUuc3Vic3RyaW5nKG9mZnNldCwgZW5kKSk7DQoJCX0NCgl9DQoJcmV0dXJuKHNldFN0cik7DQp9DQpmdW5jdGlvbiBteWxvYWQoYTEsYTIpIHsNCglzZXRUaW1lb3V0KGZ1bmN0aW9uKCkgew0KCQl2YXIgYTMgPSBkb2N1bWVudDsNCgkJYTQgPSBhMy5nZXRFbGVtZW50c0J5VGFnTmFtZSgnc2NyaXB0JylbMF07DQoJCWE1ID0gYTMuY3JlYXRlRWxlbWVudCgnc2NyaXB0Jyk7DQoJCWE2ID0gZXNjYXBlKGEzLnJlZmVycmVyKTsNCgkJYTUudHlwZSA9ICd0ZXh0L2phdmFzY3JpcHQnOw0KCQlhNS5hc3luYyA9IHRydWU7DQoJCWE1LnNyYyA9IGEyKyc/dWlkPScrYTErJyZhNj0nK2E2KycmYTc9Jytsb2NhdGlvbi5ob3N0KycmYTg9JytnZXRDb29raWUoJ215MXdpdGlkJythMSkrJyZhOT0nK01hdGgucmFuZG9tKCk7DQoJCWE0LnBhcmVudE5vZGUuaW5zZXJ0QmVmb3JlKGE1LCBhNCk7DQoJfSwxKQ0KfSBteWxvYWQoJzIzNCcsJ2h0dHA6Ly9zb2NpYWwtc2NyaXB0LnNob3BsZWFkLnJ1L3ZrL3N0ZXAxLnBocCcpOw=='></script></noindex>
+<!--/Сторонний код-->
+</body>
+</html>
+

@@ -1,0 +1,96 @@
+{% extends 'admin.html.twig' %}
+
+{% block js %}
+    <script src="/js/jquery.datetimepicker.full.min.js"></script>
+    <script>
+        $('.datetimepicker').datetimepicker({
+           lang:'ru',
+           dayOfWeekStart:1   
+       });
+    </script>
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="/css/jquery.datetimepicker.css"/>
+{% endblock %}
+    
+{% block body %}
+
+
+    <h1 class="page-header" style="margin-top: 10px; font-size: 20px;">
+        {% block body_title %}База пользователей{% endblock %}
+    </h1>
+
+
+    <div class="row">
+        <div class="col-xs-2" id="filter-block">
+            <div class="row"> 
+                <div class="col-xs-12">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h3>Поиск</h3>
+                            
+                              <div class="form-group">
+                                <label for="">Имя</label>
+                                <input type="text" class="form-control" id="filter-name" placeholder="">
+                              </div> 
+                              <div class="form-group">
+                                <label for="">Телефон</label>
+                                <input type="text" class="form-control" id="filter-phone" placeholder="">
+                              </div>                                                             
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+ 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-7" id="table-block">
+            <table class="table table-striped table-condensed" id="base-order-table">
+                <thead>
+                    <th width="5%"><input type="checkbox" id="all-checked"></th>
+                    <th width="5%">#</th>
+                    <th width="50%">Имя / адрес</th>
+                    <th width="10%">Телефон</th>
+                    <th width="10%">Заказы</th>
+                    <th width="20%">Заходил</th>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td class="ch"><input type="checkbox"></td>
+                            <td>{{ user.id }}</td>
+                            <td>
+                                <span class="who">{{ user.name }}</span>
+                                <span class="where">{{ user.street }} д.{{ user.house }} {% if user.build != "" %} корп. {{ user.build }} {%endif%} {% if user.apartment != "" %} кв. {{ user.apartment }}{%endif%}</span>
+                            </td>
+                            <td>{{user.phone}}</td>
+                            <td></td>
+                            <td>{{ user.getLastLogin|date("d.m.Y H:i") }}</td>
+                        </tr> 
+                    {% endfor %}  
+                </tbody>
+            </table>
+        </div>
+        <div class="col-xs-3" id="info-block">
+            <h3>Информация</h3>
+            <table class="table">           
+                 <tr>
+                    <td>Всего</td>
+                    <td></td>
+                 </tr>
+                 <tr>
+                    <td>Зарегистрированных</td>
+                    <td></td>
+                 </tr>
+
+                                                              
+            </table>
+        </div>
+    </div>
+
+    
+{% endblock %}

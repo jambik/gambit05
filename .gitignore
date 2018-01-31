@@ -1,0 +1,7 @@
+/.idea
+/.cache
+/vendor
+/var/cache
+/var/logs
+/var/sessions
+composer.lock

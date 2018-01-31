@@ -1,0 +1,8 @@
+
+@font-face {
+  font-family: 'IntroRust-Base';
+  src: url('IntroRust-Base.eot?#iefix') format('embedded-opentype'),  url('IntroRust-Base.otf')  format('opentype'),
+	     url('IntroRust-Base.woff') format('woff'), url('IntroRust-Base.ttf')  format('truetype'), url('IntroRust-Base.svg#IntroRust-Base') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}

@@ -1,0 +1,278 @@
+{% extends 'admin.html.twig' %}
+
+{% block js %}
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+    <script src="/js/jquery.datetimepicker.full.min.js"></script>
+    <script src="/js/filter.manager.js"></script>
+{% endblock %}
+   
+{% block css %}
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <link rel="stylesheet" type="text/css" href="/css/jquery.datetimepicker.css"/>
+{% endblock %}
+    
+      
+{% block body %}
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1>Список мероприятий</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-9">
+                <table class="table table-condensed table-hover wedding-list">
+                    <thead>
+                        <tr >
+                            <th width="5%">#</th>
+                            <th width="15%" class="text-center">Статус</th>
+                            <th width="50%" class="text-left">Кто?</th>
+                            <th width="10%" class="text-left">Где?</th>
+                            <th width="20%" class="text-left">Когда?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>    
+                </table>
+            </div>
+            <div class="col-xs-3">
+                <div class="row">
+                    <div class="col-xs-12" id="filter-panel">
+                        <h3>Поиск мероприятия</h3>
+                        <form role="form">
+                            <div class="form-group">
+                                <label for="family">Фамилия</label>
+                                <input type="text" class="form-control" id="filter-family" placeholder="Ивановы">
+                            </div>
+                            <div class="form-group">
+                                <label for="mName">Имя жениха</label>
+                                <input type="text" class="form-control" id="filter-mName" placeholder="Иван">
+                            </div>
+                            <div class="form-group">
+                                <label for="gName">Имя невесты</label>
+                                <input type="text" class="form-control" id="filter-gName" placeholder="Марья">
+                            </div>
+                            <div class="form-group">
+                                <label for="wedDate">Дата</label>
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <input type="text" class="form-control" id="filter-year" placeholder="Год">
+                                    </div>
+                                    <div class="col-xs-5">
+                                        <select class="form-control" id="filter-month">
+                                            <option value="0">Все месяцы</option>
+                                            <option value="1">Январь</option>
+                                            <option value="2">Февраль</option>
+                                            <option value="3">Март</option>
+                                            <option value="4">Апрель</option>
+                                            <option value="5">Май</option>
+                                            <option value="6">Июнь</option>
+                                            <option value="7">Июль</option>
+                                            <option value="8">Август</option>
+                                            <option value="9">Сентябрь</option>
+                                            <option value="10">Октябрь</option>
+                                            <option value="11">Ноябрь</option>
+                                            <option value="12">Декабрь</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-xs-4">
+                                        <input type="text" class="form-control" id="filter-day" placeholder="День">
+                                    </div>
+                                </div>
+                            </div>                             
+                            <div class="checkbox">
+                                <label><input type="checkbox" id="filter-main">Главный зал</label>
+                            </div>
+                            <div class="checkbox">
+                                <label><input type="checkbox" id="filter-pavilion">Шатер</label>
+                            </div> 
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" id="filter-active">Не активные
+                                </label>
+                            </div>  
+                            <a href='' style="width:100%;margin-bottom: 10px;" class="btn btn-default" id="find-filter">Искать</>                                                 
+                            <a  style="width:100%" id="open-create-window" class="btn btn-primary">Создать</a>                                                 
+                                     
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Добавить мероприятия</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-xs-12">
+                <form role="form" id="createForm">
+                    <div class="form-group">
+                    <label for="">Дата</label>
+                    <input style="width:47%" type="text" class="form-control create-datetimepicker" id="create-datepicker" placeholder="">
+                  </div> 
+                  <div class="form-group">
+                    <label for="">Фамилия</label>
+                    <input type="text" class="form-control" id="create-family" placeholder="Ивановы">
+                  </div>
+                  <div class="form-group">
+                    <label for="">Псевдоним страницы</label>
+                    <input type="text" class="form-control" id="create-alias" placeholder="Если оставить пустым, то будет транслит от фамилии - ivanovy">
+                  </div>                  
+                  <div class="row">
+                      <div class="col-xs-6">
+                        <div class="form-group">
+                            <label for="">Имя жениха</label>
+                            <input type="text" class="form-control" id="create-man-name" placeholder="Иван">
+                        </div>
+                        <div class="form-group">
+                            <label for="manPhoto">Фото</label>
+                            <input type="file" id="manPhoto">
+                            <p class="help-block">Фото для розового сердца</p>
+                        </div>
+                      </div>
+                      <div class="col-xs-6">
+                           <div class="form-group">
+                            <label for="">Имя невесты</label>
+                            <input type="text" class="form-control" id="create-woman-name" placeholder="Марья">
+                          </div>
+                          <div class="form-group">
+                            <label for="womanPhoto">Фото</label>
+                            <input type="file" id="womanPhoto">
+                            <p class="help-block">Фото для голубого сердца</p>
+                          </div>                 
+                      </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                  <input type="checkbox" id="create-active"> Активна
+                                </label>
+                          </div>
+                        </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-xs-12">
+                          <div class="radio">
+                              <label>
+                                      <input type="radio"  name="create-place" class="create-place" value="option1" checked>
+                                      Главный зал
+                                    </label>
+                            </div>
+                            <div class="radio">
+                              <label>
+                                      <input type="radio" name="create-place" class="create-place" value="option2">
+                                      Шатер 
+                                    </label>
+                            </div>
+                        </div>
+                  </div>
+                </form>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+        <button type="button" class="btn btn-primary" id="create-save">Добавить</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Редактировать мероприятие</h4>
+      </div>
+      <div class="modal-body">
+      <div class="photo-preview" style="">
+        <img src="" alt="">
+      </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <form role="form">
+                  <div class="form-group">
+                    <label for="">Дата</label>
+                    <input type="text" class="form-control edit-datepicker" id="datepicker" placeholder="">
+                  </div>                
+                  <div class="form-group">
+                    <label for="">Фамилия</label>
+                    <input type="text" class="form-control" id="edit-family" placeholder="Ивановы">
+                  </div>
+                  <div class="row">
+                      <div class="col-xs-6">
+                        <div class="form-group">
+                            <label for="">Имя жениха</label>
+                            <input type="text" class="form-control" id="edit-man-name" placeholder="Иван">
+                        </div>
+                        <div class="form-group">
+                            <label for="mPhotoLable" id="mPhotoLable">Фото <span></span></label>
+                            <input type="file" class="mPhoto">
+                            <p class="help-block">Фото для розового сердца</p>
+                        </div>
+                      </div>
+                      <div class="col-xs-6">
+                           <div class="form-group">
+                            <label for="">Имя невесты</label>
+                            <input type="text" class="form-control" id="edit-woman-name" placeholder="Марья">
+                          </div>
+                          <div class="form-group" >
+                            <label for="exampleInputFile" id="wPhotoLable">Фото <span></span></label>
+                            <input type="file" class="wPhoto">
+                            <p class="help-block">Фото для голубого сердца</p>
+                          </div>                 
+                      </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12">
+                        <div class="checkbox">
+                            <label>
+                                  <input type="checkbox" id="edit-active" value="1"> Активна
+                                </label>
+                          </div>
+                        </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-xs-12">
+                          <div class="radio">
+                              <label>
+                                      <input type="radio" name="edit-place" class="edit-place" value="0" >
+                                      Главный зал
+                                    </label>
+                            </div>
+                            <div class="radio">
+                              <label>
+                                      <input type="radio" name="edit-place" class="edit-place" value="1">
+                                      Шатер 
+                                    </label>
+                            </div>
+                        </div>
+                  </div>
+                </form>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+        <button type="button" class="btn btn-danger" id="edit-delete">Удалить</button>        
+        <button type="button" class="btn btn-primary" id="edit-save">Сохранить</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

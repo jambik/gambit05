@@ -1,0 +1,198 @@
+{% extends 'admin.html.twig' %}
+
+{% block js %}
+    <script src="/js/jquery.datetimepicker.full.min.js"></script>
+    <script>
+        $('.datetimepicker').datetimepicker({
+           lang:'ru',
+           dayOfWeekStart:1   
+       });
+    </script>
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="/css/jquery.datetimepicker.css"/>
+{% endblock %}
+    
+{% block body %}
+    <div class="bs-callout bs-callout-info">
+        <h1 class="page-header">
+            {% block body_title %}База заказов{% endblock %}
+        </h1> 
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <table class="table table-striped table-condensed" id="base-order-table">
+                <thead>
+                    <th width="3%"><input type="checkbox" id="all-checked"></th>
+                    <th width="30%">Заголовок</th>
+                    <th width="8%">Статус</th>
+                    <th width="10%">Тип</th>
+                    <th width="13%">Клиент</th>
+                    <th width="15%">Сумма</th>
+                    <th width="15%">Комментарий</th>
+                    <th width="3%"><i class="fa fa-envelope" aria-hidden="true"></i></th>
+                    <th width="3%"><i class="fa fa-desktop" aria-hidden="true"></i></th>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                        <tr id="order-item-{{order.id}}" data-user-id="{{order.user.id}}" data-id="{{order.id}}" class="order-item {%if order.status == 0%}{%elseif order.status == 1%}order-status-complete{%elseif order.status == 2%}order-status-cancel{%endif%}">
+                            <td class="ch"><input type="checkbox"></td>
+                            <td>
+                                <span class="who">Заказ №{{ order.id }} от {{ order.createdAt|date("d.m.Y H:i") }} </span>
+                            </td>
+                            <td class="order-status">{{order.status|replace({0:'Новый',1:'Обработан',2:'Отменен'})}}</td>
+                            <td>
+                               Доставка
+                            </td>
+                            <td>
+                                    {% if order.user  %}
+                                        {% if order.user.name != "" %}
+                                            {{order.user.name}}
+                                        {%else%}
+                                            Посетитель №{{order.user.id}}
+                                        {%endif%}
+                                    {%endif%}
+                            </td>
+                            <td></td>
+                            <td>{{order.comment}}</td>
+                            <td>{% if order.sendMail %}<i class='fa fa-check' title="{{order.sendMail|date("d.m.Y H:i")}}"></i>{%else%}<i class='fa fa-frown-o'></i>{%endif%}</td>
+                            <td>{% if order.sendIiko %}<i class='fa fa-check' title="{{order.sendIiko|date("d.m.Y H:i")}}"></i>{%else%}<i class='fa fa-frown-o'></i>{%endif%}</td>
+                        </tr> 
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+  <div class="modal fade" id="order-user" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Информация о заказчике</h4>
+      </div>
+      <div class="modal-body">
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+      </div>
+    </div>
+  </div>
+</div>  
+  <div class="modal fade" id="order-address" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Информация о доставке</h4>
+      </div>
+      <div class="modal-body">
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+ <div class="modal fade" id="order-list" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Информация о заказе</h4>
+      </div>
+      <div class="modal-body">
+      <div class="row">
+        <div class="col-xs-6">
+            <div class="panel panel-default">
+              <div class="panel-heading">Информация о доставке</div>
+              <div class="panel-body">
+                  <table class="table table-striped">
+                    <tr>
+                        <th>Город</th>
+                        <td class="order-city"></td>
+                    </tr>
+                    <tr>
+                        <th>Улица</th>
+                        <td class="order-street"></td>
+                    </tr>
+                    <tr>
+                        <th>Дом</th>
+                        <td class="order-house"></td>
+                    </tr>
+                    <tr>
+                        <th>Корпус</th>
+                        <td class="order-build"></td>
+                    </tr>
+                    <tr>
+                        <th>Квартира</th>
+                        <td class="order-apartment"></td>
+                    </tr> 
+                    <tr>
+                        <td>Комментарий</td>
+                        <td class="order-comment"></td>
+                    </tr>                                           
+                  </table>
+              </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="panel panel-default">
+              <div class="panel-heading">Информация о покупателе</div>
+              <div class="panel-body">
+                <table class="table table-striped">
+                    <tr>
+                        <th>Имя</th>
+                        <td id='order-user-name'></td>
+                    </tr>
+                    <tr>
+                        <th>Адрес</th>
+                        <td id='order-user-address'></td>
+                    </tr>
+                    <tr>
+                        <th>Телефон</th>
+                        <td id='order-user-phone'></td>
+                    </tr>
+                    <tr>
+                        <th>Регистрация</th>
+                        <td id='order-user-reg'></td>
+                    </tr>
+                    <tr>
+                        <th>Последний визит</th>
+                        <td id='order-user-last-visit'></td>
+                    </tr>                                            
+                </table>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="row">
+          <div class="col-xs-12">
+               <table class="table table-striped" id="order-table-list">
+                   <thead>
+                       <tr>
+                          <td>Товар</td>
+                          <td>Кол-во</td>
+                          <td>Цена</td>
+                       </tr>            
+                   </thead>
+                   <tbody>
+            
+                   </tbody>
+               </table>
+          </div>
+      </div>
+        
+    </div>
+      <div class="modal-footer" id='status-order-id' data-order-id=''>
+        <button type="button" class="btn btn-default change-order-status" data-status-id='1' data-dismiss="modal">Обработан</button>
+        <button type="button" class="btn btn-default change-order-status" data-status-id='2' data-dismiss="modal">Отменен</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

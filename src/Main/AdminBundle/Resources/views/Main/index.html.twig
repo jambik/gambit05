@@ -1,0 +1,232 @@
+{% extends 'admin.html.twig' %}
+
+{% block body %}
+<div class="bs-callout bs-callout-info">
+    <h1 class="page-header">
+        {% block body_title %}Панель состояния{% endblock %}
+    </h1> 
+</div>
+<div class="row">
+    <div class="col-lg-3 col-md-3 col-sm-6">
+        <div class="tile">
+            <div class="tile-heading">
+                Заказы
+                <span class="pull-right">Всего {{ order_all }}</span>
+            </div>
+            <div class="tile-body">
+                <i class="fa fa-shopping-cart"></i>
+                <h2 class="pull-right">{{order_today}}</h2>
+            </div>
+            <div class="tile-footer">
+                <a href="/work/order/">подробнее...</a>
+            </div>
+        </div>
+    </div>
+        <div class="col-lg-3 col-md-3 col-sm-6">
+        <div class="tile">
+            <div class="tile-heading">
+                Всего заказано на
+                <span class="pull-right"> {{sum}} руб.</span>
+            </div>
+            <div class="tile-body">
+                <i class="fa fa-credit-card"></i>
+                <h2 class="pull-right">{{sum_today}} руб.</h2>
+            </div>
+            <div class="tile-footer">
+                Цена в рублях
+            </div>
+        </div>
+    </div>
+        <div class="col-lg-3 col-md-3 col-sm-6">
+        <div class="tile">
+            <div class="tile-heading">
+                Посетители 
+                <span class="pull-right">за все время: {{ all_users}}</span>
+            </div>
+            <div class="tile-body">
+                <i class="fa fa-user"></i>
+                <h2 class="pull-right">{{user_today}}</h2>
+            </div>
+            <div class="tile-footer">
+                  Зарегистрировано: {{reg_user}}
+            </div>
+        </div>
+    </div>
+        <div class="col-lg-3 col-md-3 col-sm-6">
+        <div class="tile">
+            <div class="tile-heading">
+                Люди ONLINE
+                <span class="pull-right"> </span>
+            </div>
+            <div class="tile-body">
+                <i class="fa fa-users"></i>
+                <h2 class="pull-right">{{user_online|length}}</h2>
+            </div>
+            <div class="tile-footer">
+                <a href="">Активны за последние 15 минут</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-4 col-md-12 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <i class="fa fa-calendar"></i>
+                    Недавняя активность
+                </h3>
+            </div>
+            <div class="table-responsive">
+                                       
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8 col-md-12 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <i class="fa fa-shopping-cart"></i>
+                    Последние заказы
+                </h3>
+            </div>
+            <div class="table-responsive">
+                <table class="table" id="main-order-tbl">
+                    <thead>
+                        <tr>
+                            <td class="text-right"><b>№</b></td>
+                            <td><b>Покупатель</b></td>
+                            <td><b>Заказов</b></td>
+                            <td><b>Состояние</b></td>
+                            <td><b>Добавлено</b></td>
+                            <td class="text-center"><b>Тип</b></td>
+                            <td class="text-right"><b>Сумма</b></td>
+                        </tr>
+                    </thead>
+                <tbody>
+                    {% for o in order_list %}
+                        <tr id="order-item-{{o.id}}" data-user-id="{{o.user.id}}" data-id="{{o.id}}" class="order-item {%if o.status == 0%}{%elseif o.status == 1%}order-status-complete{%elseif o.status == 2%}order-status-cancel{%endif%}">
+                            <td class="text-right">{{o.id}}</td>
+                            <td>{% if  o.user %}
+                                        {% if o.user.name != "" %}
+                                            {{o.user.name}}
+                                        {%else%}
+                                            Посетитель №{{o.user.id}}
+                                        {%endif%}
+                                    {%endif%}</td>
+                            <td>{{o.user.order|length}}</td>
+                            <td class='order-status'>{{o.status|replace({0:'Новый',1:'Обработан',2:'Отменен'})}}</td>
+                            <td>{{ o.createdAt|date("d.m.Y H:i") }}</td>
+                            <td class="text-center">{% if o.isPickUp %} Самовывоз {%else%} Доставка {%endif%}</td>
+                            <td class="text-right">{{o.summ}}р.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+ <div class="modal fade" id="order-list" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Информация о заказе</h4>
+      </div>
+      <div class="modal-body">
+      <div class="row">
+        <div class="col-xs-6">
+            <div class="panel panel-default">
+              <div class="panel-heading">Информация о доставке</div>
+              <div class="panel-body">
+                  <table class="table table-striped">
+                    <tr>
+                        <th>Город</th>
+                        <td class="order-city"></td>
+                    </tr>
+                    <tr>
+                        <th>Улица</th>
+                        <td class="order-street"></td>
+                    </tr>
+                    <tr>
+                        <th>Дом</th>
+                        <td class="order-house"></td>
+                    </tr>
+                    <tr>
+                        <th>Корпус</th>
+                        <td class="order-build"></td>
+                    </tr>
+                    <tr>
+                        <th>Квартира</th>
+                        <td class="order-apartment"></td>
+                    </tr> 
+                    <tr>
+                        <td>Комментарий</td>
+                        <td class="order-comment"></td>
+                    </tr>                                           
+                  </table>
+              </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="panel panel-default">
+              <div class="panel-heading">Информация о покупателе</div>
+              <div class="panel-body">
+                <table class="table table-striped">
+                    <tr>
+                        <th>Имя</th>
+                        <td id='order-user-name'></td>
+                    </tr>
+                    <tr>
+                        <th>Адрес</th>
+                        <td id='order-user-address'></td>
+                    </tr>
+                    <tr>
+                        <th>Телефон</th>
+                        <td id='order-user-phone'></td>
+                    </tr>
+                    <tr>
+                        <th>Прошел регистрацию</th>
+                        <td id="order-is-reg"></td>
+                    </tr>
+                    <tr>
+                        <th>Начало сессии</th>
+                        <td id='order-user-reg'></td>
+                    </tr>
+                    <tr>
+                        <th>Последний визит</th>
+                        <td id='order-user-last-visit'></td>
+                    </tr>                                            
+                </table>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="row">
+          <div class="col-xs-12">
+               <table class="table table-striped" id="order-table-list">
+                   <thead>
+                       <tr>
+                          <td>Товар</td>
+                          <td>Кол-во</td>
+                          <td>Цена</td>
+                       </tr>            
+                   </thead>
+                   <tbody>
+            
+                   </tbody>
+               </table>
+          </div>
+      </div>
+        
+    </div>
+      <div class="modal-footer" id='status-order-id' data-order-id=''>
+        <button type="button" class="btn btn-default change-order-status" data-status-id='1' data-dismiss="modal">Обработан</button>
+        <button type="button" class="btn btn-default change-order-status" data-status-id='2' data-dismiss="modal">Отменен</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

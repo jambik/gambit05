@@ -1,0 +1,67 @@
+<!--Товар-->
+<div class="col-sm-4 item {% if product.IsPriceDiscount %}item-moment {% endif %}" data-product-id="{{product.id}}">
+    <article class="goods-item" data-product-id="{{product.id}}" data-is-discount="{{product.isPriceDiscount}}" data-max-basket-count="{{product.maxBasketCount}}">
+          <div class="coverImage">
+            <a href="/catalog/{{url}}/{{product.alias}}"><img data-src="{% if product.images.count > 0 %} 
+                            {% if product.images[0].urlNuberUpload %}
+                                {{ product.images[0].urlNuberUpload }}
+                            {% else %}
+                                {{ product.images[0].urlOriginal }} 
+                            {% endif %}
+                       {% else %} 
+                            /img/product/no-photo.png 
+                       {% endif %}"> </a>
+          </div>
+          <!--<div class="search"></div>-->
+          <div class="bodyPlayer"></div>
+          <!-- рекомендации -->
+          {% if rec is not empty and rec is defined %}
+              <table class="list rec-list">
+                  <tr class="list-title">
+                      <td colspan="2">Рекомендуем попробовать:</td>
+                  </tr>
+                  {% for p in rec if p is not null %} 
+                  
+                        <tr class="rec" data-product-id="{{p.id}}">
+                              <td rowspan="2" class="rec-img"><img data-src="{% if p.images.count > 0 %} 
+                                                {% if p.images[0].urlNuberUpload %}
+                                                    {{ p.images[0].urlNuberUpload }}
+                                                {% else %}
+                                                    {{ p.images[0].urlOriginal }} 
+                                                {% endif %}
+                                           {% else %} 
+                                                /img/product/no-photo.png 
+                                           {% endif %}"></td>
+                            <td class="rec-name"><a href="{{p.Href}}"><h6>{{p.name}}</h6></a></td>
+                        </tr>
+                        <tr class="rec">
+                            <td class="rec-buy" id="{{p.id}}" data-group-name="{{p.parentGroup.name}}" data-group-id="{{p.parentGroup.id}}">
+                            <span class="product-info" data-product-parent-name='{{ p.parentGroup.name }}' data-product-parent-id='{{ p.parentGroup.id }}' data-product-name='{{ p.name }}' data-product-href='{{p.Href}}'  data-product-id="{{p.id}}" data-product-price='{{p.price}}'></span>
+                            <button class="buy"><span class="rec-price">{{p.price}}</span><i class="fa fa-rub"></i></button></td>
+                        </tr>  
+                  {% endfor %}
+              </table>
+          {% endif %}
+        <!-- /рекомендации -->
+        {% if product.IsPriceDiscount %}
+            <div class="counter">Осталось {{ product.remainderItem }} шт</div>
+            <div class="time-left">
+                {{ product.timeUntilTheEnd }}
+            </div> 
+        {% endif %}        
+        <div class="info">
+        <span class="product-info" data-product-parent-name='{{ product.parentGroup.name }}' data-product-parent-id='{{ product.parentGroup.id }}' data-product-name='{{ product.name }}' data-product-href='/catalog/{{url}}/{{product.alias}}'  data-product-id="{{product.id}}" data-product-price='{{product.price}}'></span>
+            <a href="/catalog/{{url}}/{{product.alias}}" class="product-name">{{ product.name }}</a>
+            <p>{{ product.description }}</p>
+            <p class="weight">{{ (product.weight * 1000)|round }} гр.</p>
+            {% if product.parentGroup.id == 301 %}
+                <div class="link-wrap">
+                    <a href="/catalog/{{url}}/{{product.alias}}" class="to-category">Перейти</a> 
+                </div>
+            {% else %}
+                <button class="buy"><span class="price">{{ product.price }}</span><i class="fa fa-rub"></i></button>
+            {% endif %}
+        </div>
+    </article>
+</div>
+<!--/Товар-->

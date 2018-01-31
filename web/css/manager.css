@@ -1,0 +1,248 @@
+.del-rec{
+    cursor: pointer;
+}
+
+.page-item:hover td{
+    cursor: pointer;
+    background-color: #65A5DB !important;
+     color:#000;   
+}
+
+.page-data-seo .row{
+    margin-top:20px;
+}
+
+.order-item:hover td{
+        background-color: #65A5DB !important;    
+}
+.order-item:hover{
+    color:#000;
+    cursor: pointer;
+}
+#filter-block  h3{
+    margin-top:0px !important;
+    font-size:20px;
+}
+
+#filter-block label{
+    font-size: 12px;
+}
+
+#filter-block input[type="text"]{
+    height:28px !important;
+    padding:6px 8px !important;
+}
+.navbar-default .navbar-brand {
+    color: #fff;
+    font-size: 24px;
+}
+
+#filter-block{
+    background-color: #f9f9f9;
+    padding: 5px;
+    border-radius:3px;
+    margin-left:5px;
+}
+
+.navbar-default {
+    background-color: #3f6889;
+    border-color: #fff;
+}
+
+
+#table-block{
+    padding-left: 10px;
+    width:57%;
+}
+
+#table-block .who{
+    display: block;
+    float: left;
+    clear: left;   
+    font-size:12px;
+}
+
+#base-product-table{
+    cursor:pointer;
+}
+
+#info-block{
+    background-color: #f9f9f9;
+    padding: 5px;
+    border-radius:3px;
+    margin-left:5px;     
+}
+
+#info-block  h3{
+    margin-top:0px !important;
+    font-size:20px;
+}
+
+#table-block table tr:hover td{
+    background-color: #ccc;  
+}
+
+#table-block table{
+    font-size: 12px;
+    cursor: pointer;
+}
+
+#table-block .where{
+    display: block;
+    float: left;
+    clear: left;  
+    font-size: 11px;
+}
+
+#product-card-img{
+    width:100%;
+}
+
+.isTrue td{
+    background-color: #CCFFCC;    
+}
+
+#base-order-table td{
+    padding: 0 5px;
+    font-size: 12px; 
+    line-height: 20px;;   
+}
+
+.order-status-complete td{
+    background: #CCFF99;   
+}
+.order-status-cancel td{
+    background: #FFCC99;
+}
+
+.item-list-mod td{
+    padding: 1px 2px !important;
+}
+.item-list-mod td:first-child{
+    padding-left: 20px !important;
+}
+
+.page-header{
+    margin: 5px; 
+    font-size: 25px;
+}
+.bs-callout-info {
+    background-color: #f4f8fa;
+}
+.bs-callout {
+    border-left: 3px solid #3f6889;
+    margin: 10px 0;
+    padding: 5px;
+}
+
+.order-item:hover a{
+    color:#000;     
+}
+.tile-body {
+    color: #ffffff;
+    line-height: 48px;
+    padding: 15px;
+}
+
+.tile {
+    background-color: #279fe0;
+    border-radius: 3px;
+    color: #ffffff;
+    margin-bottom: 15px;
+    transition: all 1s ease 0s;
+}
+
+.tile-heading {
+    background-color: #1e91cf;
+    color: #fff;
+    padding: 5px 8px;
+    text-transform: uppercase;
+}
+.tile .tile-heading .pull-right {
+    opacity: 0.7;
+    transition: all 1s ease 0s;
+}
+.tile-footer {
+    background-color: #3da9e3;
+    padding: 5px 8px;
+}
+.tile .tile-body i {
+    font-size: 50px;
+    opacity: 0.3;
+    transition: all 1s ease 0s;
+}
+.tile:hover .tile-body i {
+    color: #FFFFFF;
+    opacity: 1;
+}
+
+.tile a {
+    color: #ffffff;
+} 
+.activeTreeItem{
+     background-color: #65a5db !important;    
+}
+#card-block-prod-tree > ul > li > ul,
+#card-block-product-tree > ul > li > ul,
+#product-tree > ul > li > ul,
+#product-tree-rec > ul > li > ul{
+    list-style: none;
+    padding-left: 5px !important;
+}
+#card-block-prod-tree > ul > li > ul > li > ul,
+#card-block-product-tree > ul > li > ul > li > ul,
+#product-tree > ul > li > ul > li > ul,
+#product-tree-rec > ul > li > ul > li > ul{
+    list-style: none;
+    padding-left: 15px !important;
+}
+#card-block-prod-tree > ul > li > ul > li > ul > li > ul,
+#card-block-product-tree > ul > li > ul > li > ul > li > ul,
+#product-tree > ul > li > ul > li > ul > li > ul,
+#product-tree-rec > ul > li > ul > li > ul > li > ul{
+    list-style: none;
+    padding-left: 25px !important;
+}
+#card-block-prod-tree > ul,
+#card-block-product-tree > ul,
+#product-tree > ul,
+#product-tree-rec > ul{
+    padding: 0;
+    list-style: none;
+}
+#card-block-prod-tree a, 
+#card-block-product-tree a, 
+#product-tree a,
+#product-tree-rec a{
+    text-decoration: none;
+    color:black !important;
+    font-weight:100 !important;
+    display: block;
+    width: 100%;
+    cursor: pointer; 
+    background-color: #fff ;   
+}
+#card-block-prod-tree a,
+#card-block-product-tree a,
+ #product-tree-rec a{
+    background-color: #fff ;    
+}
+#card-block-prod-tree a:hover,
+#card-block-product-tree a:hover,
+ #product-tree a:hover,
+  #product-tree-rec a:hover{
+    background-color: #65a5db !important;   
+
+}
+
+#card-block-prod-tree, 
+#card-block-product-tree, 
+#product-tree,
+#product-tree-rec{
+    height: 300px;
+    margin-top: 10px;
+    overflow: auto;
+    border:1px solid #ccc;
+    border-radius:5px;
+    padding: 5px;
+}

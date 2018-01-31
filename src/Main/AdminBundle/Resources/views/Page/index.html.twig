@@ -1,0 +1,59 @@
+{% extends 'admin.html.twig' %}
+
+{% block js %}
+    <script src="/js/jquery.datetimepicker.full.min.js"></script>
+    <script>
+        $('.datetimepicker').datetimepicker({
+           lang:'ru',
+           dayOfWeekStart:1   
+       });
+    </script>
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="/css/jquery.datetimepicker.css"/>
+{% endblock %}
+    
+{% block body %}
+    <div class="bs-callout bs-callout-info">
+        <h1 class="page-header">
+            {% block body_title %}Список страниц{% endblock %}
+        </h1> 
+    </div>
+
+    <div class="row">
+        <div class="text-right col-xs-12" id="filter-block">
+            <a class='btn btn-default'>Добавать страницу</a>    
+        </div>    
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <table class="table table-striped table-condensed" id="base-order-table">
+                <thead>
+                    <th width="3%"><input type="checkbox" id="all-checked"></th>
+                    <th width="5%">#</th>
+                    <th width="30%">Заголовок</th>
+                    <th width="15%">Псевдоним</th>
+                    <th width="16%">Тип</th>
+                    <th width="5%">Порядок сортировки</th>
+                    <th width="10" class="text-center">
+                        Создана
+                    </th>
+                </thead>
+                <tbody>
+                    {% for p in page %}
+                        <tr class="page-item" data-id='{{p.id}}'>
+                            <td class="ch"><input type="checkbox"></td>
+                            <td>{{p.id}}</td>
+                            <td>{{p.title}}</td>
+                            <td>{{p.alias}}</td>
+                            <td>{{p.PageType|replace({'0':'Главная страница','1':'Обычная страница','2':'Каталог с товарами','3':'Детальная информация','4':'Оформлние заказа','5':'Завершение заказа'})}}</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

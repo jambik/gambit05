@@ -1,0 +1,11 @@
+services:
+#    main_page.example:
+#        class: Main\PageBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]
+
+
+services:
+    routing.loader.statik_url:
+        class: Main\PageBundle\Routing\ExtraLoader
+        tags:
+            - { name: routing.loader }

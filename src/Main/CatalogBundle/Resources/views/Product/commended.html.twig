@@ -1,0 +1,16 @@
+<!--Рекомендованные товары-->
+    <div class="row">
+        <div class="clearfix"></div>
+        <div class="similar-goods clearfix">
+            <img class="close-similar" src="/img/close3.png">
+            <h3>Рекомендуем</h3>
+            {% for p in product %}
+            <div data-group-id="{{ p[0].parentGroup.id }}" data-group-name="{{ p[0].parentGroup.name }}" data-product-id="{{ p[0].id }}" >
+                <img class="item-img" src="{% if p[0].images.count > 0 %} {{ p[0].images[0].urlOriginal }} {% else %} /img/product/no-photo.png {% endif %}">
+                <a class="item-name" href="/catalog/{{url[p[0].getParentGroup.getId]}}/{{p[0].alias}}">{{ p[0].name }}</a>
+                <a class="button-price rec"><span class="price">{{ p[0].price }}</span><img src="/img/cart.png"></a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+<!--/Рекомендованные товары-->

@@ -1,0 +1,31 @@
+ajax_get_index_item:
+    path:     /ajax/group/{group}/count/{count}/catch/{catch}
+    defaults: { _controller: "MainCatalogBundle:Ajax:index" }
+
+ajax_set_basket:
+    path:     /ajax/basket/set
+    defaults: { _controller: "MainCatalogBundle:Ajax:setNewBasket" }
+
+ajax_set_recomended:
+    path:     /ajax/group/recomended
+    defaults: { _controller: "MainCatalogBundle:Ajax:recomended" }
+    
+ajax_get_more_index_item:
+    path:     /ajax/group/{group}/get-more
+    defaults: { _controller: "MainCatalogBundle:Ajax:getMoreProduct" }
+
+ajax_search_product:
+    path:     /ajax/product/search
+    defaults: { _controller: "MainCatalogBundle:Ajax:getSearchResult" }
+    
+ajax_get_rec_page_product:
+    path:     /ajax/rec-item-page
+    defaults: { _controller: "MainCatalogBundle:Ajax:getRecPage" }    
+    
+ajax_get_sale_product:
+    path:     /ajax/sale/{sale}/getItem
+    defaults: { _controller: "MainCatalogBundle:Ajax:getSaleProduct" } 
+    
+ajax_user_ping:
+    path:     /ajax/user/ping
+    defaults: { _controller: "MainCatalogBundle:Ajax:setPingTime" }

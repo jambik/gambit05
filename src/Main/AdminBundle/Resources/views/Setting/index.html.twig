@@ -1,0 +1,25 @@
+{% extends 'admin.html.twig' %}
+
+{% block js %}
+    <script src="/js/jquery.datetimepicker.full.min.js"></script>
+    <script>
+        $('.datetimepicker').datetimepicker({
+           lang:'ru',
+           dayOfWeekStart:1   
+       });
+    </script>
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="/css/jquery.datetimepicker.css"/>
+{% endblock %}
+    
+{% block body %}
+    <div class="bs-callout bs-callout-info">
+        <h1 class="page-header">
+            {% block body_title %}Настройки{% endblock %}
+        </h1> 
+    </div>
+    
+    Недостаточно прав для редактирования настроек
+{% endblock %}

@@ -1,0 +1,160 @@
+{% extends 'admin.html.twig' %}
+
+{% block js %}
+    <script src="/js/jquery.datetimepicker.full.min.js"></script>
+    <script>
+        $('.datetimepicker').datetimepicker({
+           lang:'ru',
+           dayOfWeekStart:1   
+       });
+    </script>
+    <script src='/bundles/stfalcontinymce/vendor/tinymce/tinymce.min.js'></script>
+      <script>
+  tinymce.init({
+    selector: '.tinymce',
+    language: 'ru',
+    height:700,
+    plugins: [
+      'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker',
+      'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+      'save table contextmenu directionality emoticons template paste textcolor'
+    ],
+    toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons'
+ 
+  });
+  </script>
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="/css/jquery.datetimepicker.css"/>
+{% endblock %}
+    
+{% block body %}
+    <div class="bs-callout bs-callout-info">
+        <h1 class="page-header">
+            {% block body_title %}Редактирование страницы{% endblock %}
+        </h1> 
+        <p >
+           <a href="/work/">Главная</a> - <a href="/work/page/">Страницы</a> - <span>{{page.title}}</span>
+        </p>
+    </div>     <form role="form" method="post">
+    <div class="row">     
+        <div class="col-xs-12 text-right">
+             <button type='submit' class="btn btn-default btn-sm">Сохранить</button>
+            <a href="/work/page/" class="btn btn-default btn-sm">Отменить</a>
+        </div>
+    </div>
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#data" data-toggle="tab">Данные</a></li>
+      <li><a href="#content" data-toggle="tab">Контент</a></li>   
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div class="tab-pane active page-data-seo" id="data">
+          
+              <div class="row">
+                  <div class="form-group">
+                     <div class="col-xs-2 text-right"> <label for="page-meta-title">Мета-тег Title</label></div>
+                     <div class="col-xs-7">
+                        <input type="text" class="form-control" name="page-meta-title" id="page-meta-title" placeholder="" value="{{page.title}}">
+                     </div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="form-group">
+                     <div class="col-xs-2 text-right"> <label for="page-alias">Псевдоним</label></div>
+                     <div class="col-xs-7">
+                        <input type="text" class="form-control" name="page-alias" id="page-alias" placeholder="" value="{{page.alias}}">
+                     </div>
+                  </div>
+              </div>              
+              <div class="row">
+                  <div class="form-group">
+                     <div class="col-xs-2 text-right"> <label for="page-meta-h1">Заголовок страницы H1</label></div>
+                     <div class="col-xs-7">
+                        <input type="text" class="form-control" name="page-meta-h1" id="page-meta-h1" placeholder="" value="{{page.h1}}">
+                     </div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="form-group">
+                     <div class="col-xs-2 text-right"> <label for="page-meta-head">Дополнение в head</label></div>
+                     <div class="col-xs-7">
+                        <textarea cols="100" class="form-control" name="page-meta-head" id="page-meta-head" rows="5">{{page.head}}</textarea>
+                     </div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="form-group">
+                     <div class="col-xs-2 text-right"> <label for="page-meta-description">Мета-тег Description</label></div>
+                     <div class="col-xs-7">
+                        <textarea cols="100" class="form-control" name="page-meta-description" id="page-meta-description" rows="3">{{page.MetaDescription}}</textarea>
+                     </div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="form-group">
+                      <div class="col-xs-2 text-right"> <label for="page-meta-key">Мета-тег Keywords</label></div>
+                      <div class="col-xs-7">
+                         <textarea cols="100" name="page-meta-key" id="page-meta-key" class="form-control" rows="3">{{page.metaKeys}}</textarea>
+                      </div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="form-group">
+                     <div class="col-xs-2 text-right"> <label for="page-meta-preview">Описание страницы</label></div>
+                     <div class="col-xs-7">
+                        <textarea cols="100" class="form-control" name="page-meta-preview" id="page-meta-preview" rows="15">{{page.previewText}}</textarea>
+                     </div>
+                  </div>
+              </div>              
+              <div class="row">
+                  <div class="form-group">
+                      <div class="col-xs-2 text-right"> <label for="page-tpl">Шаблон</label></div>
+                      <div class="col-xs-4">
+                        <select class="form-control" name="page-tpl" id="page-tpl">
+                          <option {% if page.template == 'default'%}selected {%endif%} value="default">Default page</option>
+                          <option {% if page.pageType == 'main'%}selected {%endif%} value="main">Main page</option>
+                        </select>
+                      </div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="form-group">
+                      <div class="col-xs-2 text-right"> <label for="page-type">Тип страницы</label></div>
+                      <div class="col-xs-4">
+                        <select class="form-control" name="page-type" id="page-type">
+                          <option {% if page.pageType == 0%}selected {%endif%} value="0">Главная страницы</option>
+                          <option {% if page.pageType == 1%}selected {%endif%} value="1">Обычная страница</option>
+                          <option {% if page.pageType == 2%}selected {%endif%} value="2">Каталог товаров</option>
+                          <option {% if page.pageType == 3%}selected {%endif%} value="3">Карточка товара</option>
+                          <option {% if page.pageType == 5%}selected {%endif%} value="5">Оформление заказа</option>
+                        </select>
+                      </div>
+                  </div>
+              </div>                                                               
+        
+         
+          
+      </div>
+      <div class="tab-pane page-data-seo" id="content">
+        
+              <div class="row">
+                  <div class="form-group">
+                      <div class="col-xs-2 text-right"> <label for="page-meta-body">Тело страницы</label></div>
+                      <div class="col-xs-7">
+                         <textarea cols="100" class="form-control tinymce" rows="40" name="page-body" id='page-body'>{{page.content}}</textarea>
+                      </div>
+                  </div>
+              </div>
+          </form>
+      </div>  
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+
+{% endblock%}
+
